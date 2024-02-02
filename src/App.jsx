@@ -8,13 +8,14 @@ import { CartContextProvider } from './Context/CartContext';
 import CartContainer from './componentes/CartContainer/CartContainer';
 import { initFirebase } from './firebase/config';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Nosotros from './componentes/Nosotros/Nosotros';
+import CuadrosS from './componentes/CuadrosS/CuadrosS';
 
 initFirebase()
 function App() {
 
-  const gretting = "Bienvenidos a El Gaucho"
-  const titulo= "Productos"
-
+  const gretting = "Bienvenidos a ART";
+  const titulo= "Productos";
 return (
   
 <BrowserRouter> 
@@ -23,9 +24,11 @@ return (
     <Routes>
       <Route path='/' element={<ItemListContainer gretting= {gretting}/>} />
       <Route path='/category/:cid' element={<ItemListContainer gretting= {gretting, titulo}/>} />
+      <Route path='/Nosotros' element={<Nosotros/>} />
       <Route path='/detalle/:pid' element ={ <ItemDetailContainer/>}/>
+      <Route path='/CuadrosS' element ={ <CuadrosS gretting= {titulo}/>}/>}/>
       <Route path='/cart' element={<CartContainer/>}/>
-   
+
     </Routes>
     </CartContextProvider>
 </BrowserRouter>
