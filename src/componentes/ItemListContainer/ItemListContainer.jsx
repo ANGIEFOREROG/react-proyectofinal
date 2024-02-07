@@ -1,56 +1,48 @@
+import { useEffect, useState } from 'react';
+import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
+import ItemList from '../ItemList/ItemList';
+import { useParams } from 'react-router-dom';
+import './ItemListContainer.css';
 
-import { useEffect, useState } from 'react'
-import {collection, getDocs, getFirestore, query, where} from 'firebase/firestore'
-import ItemList from '../ItemList/ItemList'
-import { useParams } from 'react-router-dom'
-import './ItemListContainer.css'
+function ItemListContainer({ gretting }) {
+  const [products, setProducts] = useState([]);
+  const [wait, setWaiting] = useState(true);
 
-// const Wait = () =>{
-  
-//   return(
-//     <>
-//     <h2>Cargando</h2>
-//     </>
-//   )
-// }
+  const { idcat } = useParams();
 
-function ItemListContainer({gretting}){
+  useEffect(() => {
+    const db = getFirestore();
+    const queryCollection = collection(db, 'products');
+    const queryFilter = idcat ? query(queryCollection, where("category", "==", idcat)) : queryCollection;
 
-const [products, setProducts]= useState([])
-const [wait, setWaiting]= useState(true)
+    console.log('Categoría seleccionada:', idcat);
 
-
-const {idcat}= useParams()
-
-
-useEffect(() => {
-  const db = getFirestore();
-  const queryCollection = collection(db, 'products');
-const queryFilter = idcat ? query(queryCollection, where("category", "==", idcat)): queryCollection;
-    
-getDocs(queryFilter)
-      .then(resp => setProducts(resp.docs.map(prod => ({ id: prod.id, ...prod.data() }))))
-      .catch(err => console.log(err))
+    getDocs(queryFilter)
+      .then(resp => {
+        const filteredProducts = resp.docs.map(prod => ({ id: prod.id, ...prod.data() }));
+        console.log('Filtered Products:', filteredProducts);
+        setProducts(filteredProducts);
+      })
+      .catch(err => {
+        console.error('Error fetching products:', err);
+      })
       .finally(() => setWaiting(false));
-}, [idcat]);
+  }, [idcat]);
 
+  useEffect(() => {
+    console.log('Número de productos:', products.length);
+  }, [products]);
 
-return ( <div className='inicio' >
-            <h1 className="gretting">
-                {gretting}
-            </h1>
-            <div className="row">
-          
-            
-            
-              <ItemList products= {products}/>
-            
-            /
-            </div>
-        </div>
-  )
-          }
+  return (
+    <div className='inicio'>
+      <h1 className="gretting">
+        {gretting}
+      </h1>
+      <div className="row">
+        <ItemList products={products} />
+      </div>
+    </div>
+  );
+}
 
-
-export default ItemListContainer
-
+export default ItemListContainer;
