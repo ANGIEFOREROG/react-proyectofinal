@@ -22,8 +22,8 @@ return (
         <Link className='estilosnarvar' to="/" href="#features">Inicio</Link>
         <Link className='estilosnarvar' to="/Nosotros" href="#pricing">Nosotros</Link>
     <NavDropdown title="Productos" id="collasible-nav-dropdown">
-        <NavDropdown.Item as ={Link}to="/CuadrosS">Cuadros de superheroes</NavDropdown.Item>
-        <NavDropdown.Item as={Link}to ="/CuadrosS">
+        <NavDropdown.Item as ={Link}to="/Category/1">Cuadros de superheroes</NavDropdown.Item>
+        <NavDropdown.Item as={Link}to ="/Category/2">
         Cuadros personalizados
         </NavDropdown.Item>
         <NavDropdown.Item as={Link}to ="/CuadrosS">Cuadros para el hogar</NavDropdown.Item>

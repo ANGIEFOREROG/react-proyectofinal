@@ -24,13 +24,13 @@ import "./CuadrosS.css";
     const [products, setProducts] = useState([]);
     const [wait, setWaiting] = useState(true);
 
-    const { cid } = useParams();
+    const { idcat } = useParams();
 
     useEffect(() => {
         const db = getFirestore();
         const queryCollection = collection(db, "products");
-        const queryFilter = cid
-        ? query(queryCollection, where("category", "==", cid))
+        const queryFilter = idcat
+        ? query(queryCollection, where("category", "==", idcat))
         : queryCollection;
 
         getDocs(queryFilter)
@@ -39,7 +39,7 @@ import "./CuadrosS.css";
         )
         .catch((err) => console.log(err))
         .finally(() => setWaiting(false));
-    }, [cid]);
+    }, [idcat]);
 
     return (
         <div className="inicio">

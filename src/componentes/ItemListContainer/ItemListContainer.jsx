@@ -5,14 +5,14 @@ import ItemList from '../ItemList/ItemList'
 import { useParams } from 'react-router-dom'
 import './ItemListContainer.css'
 
-const Wait = () =>{
+// const Wait = () =>{
   
-  return(
-    <>
-    <h2>Cargando</h2>
-    </>
-  )
-}
+//   return(
+//     <>
+//     <h2>Cargando</h2>
+//     </>
+//   )
+// }
 
 function ItemListContainer({gretting}){
 
@@ -20,31 +20,32 @@ const [products, setProducts]= useState([])
 const [wait, setWaiting]= useState(true)
 
 
-const {cid}= useParams()
+const {idcat}= useParams()
 
 
 useEffect(() => {
   const db = getFirestore();
   const queryCollection = collection(db, 'products');
-const queryFilter = cid ? query(queryCollection, where("category", "==", cid)): queryCollection
+const queryFilter = idcat ? query(queryCollection, where("category", "==", idcat)): queryCollection;
     
 getDocs(queryFilter)
       .then(resp => setProducts(resp.docs.map(prod => ({ id: prod.id, ...prod.data() }))))
       .catch(err => console.log(err))
       .finally(() => setWaiting(false));
-}, [cid]);
+}, [idcat]);
+
 
 return ( <div className='inicio' >
             <h1 className="gretting">
                 {gretting}
             </h1>
             <div className="row">
-              { wait ?
-              <Wait/>:
+          
+            
             
               <ItemList products= {products}/>
             
-            }
+            /
             </div>
         </div>
   )
